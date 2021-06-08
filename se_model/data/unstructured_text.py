@@ -5,10 +5,12 @@ from pathlib import Path
 from se_model.utils import error
 import os
 
+
 class UnstructuredTextDataset:
     """
     A class that abstracts away the details of loading a text dataset.
     """
+
     def __init__(self, corpus_path: str) -> None:
         """
         Initializes the object. The path must be to a corpus/ folder with the
@@ -33,8 +35,8 @@ class UnstructuredTextDataset:
             'train': os.listdir(self.corpus_path/'train'),
             'test': self.corpus_path/'test.txt'
         })
-    
-    def get_prepared_data(self, for_model: str, preprocess_fns: List[Callable]=None):
+
+    def get_prepared_data(self, for_model: str, preprocess_fns: List[Callable] = None):
         """
         Preprocess the data and return it.
 
@@ -56,3 +58,5 @@ class UnstructuredTextDataset:
 
         # Tokenize
         tokenized_data = self.dataset.map(_tokenize_func, batched=True)
+
+        return tokenized_data
