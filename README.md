@@ -20,3 +20,8 @@ for file in *.7z; do mkdir $(basename $file .7z); 7z x $file -o$(basename $file 
 
 This extracts each 7z file to a directory with the same name, sans the extension.
 
+
+## Tests
+
+Some parts of this code have tests written to check that they work correctly. These have been placed *beside the code* to keep each part of the code together. As it stands, the tests are not written as unit tests, but as self-contained modules that can be run on sample inputs.
+
