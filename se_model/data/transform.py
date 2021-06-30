@@ -44,12 +44,15 @@ class DataTransform:
 
         line = unmark('\n'.join(line))  # Parse md
 
+        # The long regex is for URLs, from https://www.urlregex.com/
         return self._replace(
             self._replace(
                 self._replace(
-                    line, '@\S+', ''  # Remove mentions
-                ), '<img.*?/>', ''  # Remove images
-            ), '</?kbd>', ''  # Remove <kbd> tags, keep content
+                    self._replace(
+                        line, '@\S+', ''  # Remove mentions
+                    ), '<img.*?/>', ''  # Remove images
+                ), '</?kbd>', ''  # Remove <kbd> tags, keep content
+            ), 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ''
         )
 
     def transform(self):
@@ -68,7 +71,10 @@ class DataTransform:
 
                 processed_lines = []
                 for line in reader.iter(type=list):
-                    processed_lines.append(self._process_line(line[-1]))
+                    processed_lines.append(
+                        self._process_line(line[-1]['text_blocks']))
+                    processed_lines.append(
+                        self._process_line(line[-1]['comments']))
 
                 write_path = out_path / (file.name + '.processed')
                 write_path.touch()

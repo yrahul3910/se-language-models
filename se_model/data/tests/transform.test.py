@@ -7,4 +7,6 @@ transformer = DataTransform(data_path=os.getcwd(),
 transformer.transform()
 
 with open('/tmp/data.jsonl.processed', 'r') as f:
-    print(f.readlines())
+    lines = f.readlines()
+    for line in lines:
+        print(line)
