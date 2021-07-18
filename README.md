@@ -14,7 +14,7 @@ Please download the datasets from [archive.org](https://archive.org/download/sta
 
 We extract the data using a simple one-line shell script. Install `p7zip` for your system, using the package manager (`brew` for macOS, `apt` for Debian-based systems, `dnf` for Fedora/RHEL-based systems or the Windows Subsystem for Linux on Windows). Then, run:
 
-```
+```sh
 for file in *.7z; do mkdir $(basename $file .7z); 7z x $file -o$(basename $file .7z); done
 ```
 
