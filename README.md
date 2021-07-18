@@ -20,6 +20,14 @@ for file in *.7z; do mkdir $(basename $file .7z); 7z x $file -o$(basename $file 
 
 This extracts each 7z file to a directory with the same name, sans the extension.
 
+### Preprocessing
+
+Preprocessing is done using [@sotorrent's pipeline](https://github.com/sotorrent/preprocessing-pipeline/). Please use that to convert the raw data to JSONL files for each Stack Exchange forum. In our implementation, the pipeline writes to a Google Cloud Storage bucket. The files can be copied using:
+
+```sh
+until gsutil -m cp -L log.txt -r CLOUD_BUCKET_PATH .; do sleep 1; done 
+```
+
 
 ## Tests
 
