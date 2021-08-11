@@ -28,6 +28,8 @@ Preprocessing is done using [@sotorrent's pipeline](https://github.com/sotorrent
 until gsutil -m cp -L log.txt -r CLOUD_BUCKET_PATH .; do sleep 1; done 
 ```
 
+Next, run `jsonl-to-text.py`, which converts the JSONL data to text files.
+
 
 ## Tests
 

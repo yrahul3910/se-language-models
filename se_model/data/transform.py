@@ -1,6 +1,7 @@
 import os
 import re
 from se_model.utils import unmark, error
+from tqdm import tqdm
 from pathlib import Path
 import glob
 import jsonlines
@@ -42,7 +43,12 @@ class DataTransform:
             error('Param line must be of type list.')
             raise ValueError('Incorrect param type.')
 
-        line = unmark('\n'.join(line))  # Parse md
+        try:
+            line = unmark('\n'.join(line))  # Parse md
+        except:
+            line = '\n'.join(line)
+            print('Unmark failed, skipping.')
+            print(line)
 
         # The long regex is for URLs, from https://www.urlregex.com/
         return self._replace(
@@ -64,7 +70,9 @@ class DataTransform:
         else:
             file_list = path.glob('*.jsonl')
 
-        for file in file_list:
+        file_list = list(file_list)
+        for i, file in enumerate(file_list):
+            print(f'[{i+1} / {len(file_list)}] Processing {file}')
             # Ignore non-UTF-8 characters
             with open(file, 'r', errors='ignore') as f:
                 reader = jsonlines.Reader(f)
@@ -80,4 +88,4 @@ class DataTransform:
                 write_path.touch()
 
                 with open(write_path, 'w') as f:
-                    f.write(str(processed_lines))
+                    f.write('\n'.join(processed_lines))
