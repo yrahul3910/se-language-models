@@ -21,6 +21,19 @@ class LossLogger(CallbackAny2Vec):
         self.epoch += 1
 
 
+class EpochSaver(CallbackAny2Vec):
+    '''Callback to save model after each epoch.'''
+    def __init__(self, path_prefix):
+        self.path_prefix = path_prefix
+        self.epoch = 0
+
+    def on_epoch_end(self, model):
+        output_path = './models/{}_epoch{}.model'.format(self.path_prefix, self.epoch)
+        model.save(output_path)
+
+        self.epoch += 1
+
+
 if len(sys.argv) < 2:
     print(f'Usage: {sys.argv[0]} PATH_TO_CORPUS')
     sys.exit(1)
