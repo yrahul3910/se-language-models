@@ -28,7 +28,7 @@ class EpochSaver(CallbackAny2Vec):
         self.epoch = 0
 
     def on_epoch_end(self, model):
-        output_path = './models/{}_epoch{}.model'.format(self.path_prefix, self.epoch)
+        output_path = '{}_epoch{}.model'.format(self.path_prefix, self.epoch)
         model.save(output_path)
 
         self.epoch += 1
