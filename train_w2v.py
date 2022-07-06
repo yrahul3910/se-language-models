@@ -1,7 +1,7 @@
+import sys
 from gensim.models.word2vec import PathLineSentences
 from gensim.models.callbacks import CallbackAny2Vec
 from gensim.models import Word2Vec
-import sys
 
 
 class LossLogger(CallbackAny2Vec):
@@ -23,6 +23,7 @@ class LossLogger(CallbackAny2Vec):
 
 class EpochSaver(CallbackAny2Vec):
     '''Callback to save model after each epoch.'''
+
     def __init__(self, path_prefix):
         self.path_prefix = path_prefix
         self.epoch = 0

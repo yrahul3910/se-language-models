@@ -1,14 +1,13 @@
+import pickle
+import traceback
+import os
+import torch
 from datasets import load_dataset
 from transformers import BertTokenizerFast
 from transformers import AutoModelForMaskedLM
 from transformers import TrainingArguments
 from transformers import Trainer
 from transformers import DataCollatorForLanguageModeling
-import torch
-import pickle
-import traceback
-import glob
-import os
 
 
 base_path = '../se-language-models/data/'
@@ -30,17 +29,20 @@ tokenizer = BertTokenizerFast.from_pretrained(model_name, do_lower_case=True)
 model = AutoModelForMaskedLM.from_pretrained(model_name)
 
 # Pad to max length and truncate.
+
+
 def tokenize_function(examples):
     return tokenizer(examples['text'], padding='max_length', truncation=True, max_length=max_length)
 
+
 # Load the text dataset.
-dataset = load_dataset('text', 
-    data_files={ 
-        'train': f'{base_path}train.txt', 
-        'test': f'{base_path}test.txt',
-        'validation': f'{base_path}valid.txt'
-    }
-)
+dataset = load_dataset('text',
+                       data_files={
+                           'train': f'{base_path}train.txt',
+                           'test': f'{base_path}test.txt',
+                           'validation': f'{base_path}valid.txt'
+                       }
+                       )
 
 # If we've saved the tokenized dataset before, load it. Otherwise, tokenize the data.
 if os.path.exists(f'tokenized-{dataset_used}.pkl'):
@@ -84,11 +86,11 @@ training_args = TrainingArguments(
 
 print('Training the model...')
 trainer = Trainer(
-        model=model, 
-        args=training_args,
-        data_collator=data_collator,
-        train_dataset=train_dataset, 
-        eval_dataset=eval_dataset
+    model=model,
+    args=training_args,
+    data_collator=data_collator,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset
 )
 trainer.train()
 trainer.save_model(f'./final-model')

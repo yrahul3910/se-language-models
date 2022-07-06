@@ -28,10 +28,30 @@ Preprocessing is done using [@sotorrent's pipeline](https://github.com/sotorrent
 until gsutil -m cp -L log.txt -r CLOUD_BUCKET_PATH .; do sleep 1; done 
 ```
 
-Next, run `jsonl-to-text.py`, which converts the JSONL data to text files.
+**JSONL to text file**
 
+Next, run `jsonl-to-text.py`, which converts the JSONL data to text files. You may need to update the paths in this file before running it.
 
-## Tests
+```
+python3 jsonl-to-text.py
+```
 
-Some parts of this code have tests written to check that they work correctly. These have been placed *beside the code* to keep each part of the code together. As it stands, the tests are not written as unit tests, but as self-contained modules that can be run on sample inputs.
+**Text files to train/valid/test split**
 
+Finally, `reorganize.py` will create a train, validation, and test file.
+
+```
+python3 reorganize.py LOCATION_OF_TEXT_FILES OUTPUT_DIR
+```
+
+## Training
+
+You can train the models using `train_lm_hf.py` and `train_w2v.py`, depending on whether you want to train a language model or word2vec. While `train_w2v.py` will work without running `reorganize.py`, `train_lm_hf.py` requires that structure. 
+
+`train_w2v.py` takes in the directory of the text files as a command-line argument.
+
+```
+python3 train_w2v.py TEXT_FILES_DIR
+```
+
+Update `train_lm_hf.py` to set the path and model parameters at line 13-17, and training args at line 78-85.
