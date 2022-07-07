@@ -6,6 +6,16 @@ will use state-of-the-art models, train them, and release the trained models onl
 
 ## Getting Started
 
+There are two ways to get a pre-trained model: you can train the models yourself, or use our pre-trained model (250k steps with a batch size of 8).
+
+### Download a pre-trained model
+
+If using a pre-trained model, you can ignore the steps below. However, if you want to further train these models, you will need to follow the steps below. Our pre-trained models are stored on S3. The easiest way to access the pre-trained models is through the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). Once you have the CLI tool installed, you can directly copy the models from the bucket to your local file system. You will need 11.4GB free space for all 6 models.
+
+```
+aws s3 cp s3://se-language-models ./ --recursive
+```
+
 ### Download the data
 
 Please download the datasets from [archive.org](https://archive.org/download/stackexchange), who host the Stack Exchange data dumps. You may download as many as needed for your application. The torrent method is faster for downloading; we recommend [qBitTorrent](https://www.qbittorrent.org/download.php).
